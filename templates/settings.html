@@ -7,11 +7,13 @@
 </head>
 
 <body>
-    <h1>Settings</h1><a href="/"> PicRotate</a>
+    <h1>Settings</h1>
+    <label for="rotationTime">Rotation Time (ms):</label>
+    <input type="text" id="rotationTime" name="rotationTime">
 
     <!-- Upload Form -->
     <form action="/settings" method="post" enctype="multipart/form-data">
-        <label for="file">Select images to upload (.jpg):</label>
+        <label for="file">Select image(s) to upload (.jpg, .jpeg, .png):</label>
         <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png" multiple>
         <input type="submit" value="Upload">
     </form>
@@ -21,8 +23,13 @@
         {% for image in image_filenames %}
         <div class="image-item">
             <img src="{{ url_for('serve_image', filename=image) }}" class="thumbnail">
-            <input type="checkbox" class="image-checkbox" data-image-name="{{ image }}">
-            <button class="delete-button" data-image-name="{{ image }}">Delete</button>
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" class="image-checkbox" data-image-name="{{ image }}">
+                    <span class="slider round"></span>
+                </label>
+                <button class="delete-button" data-image-name="{{ image }}">Delete</button>
+            </div>
         </div>
         {% endfor %}
     </div>

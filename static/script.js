@@ -2,9 +2,12 @@ let images = [];
 let selectedImages = [];
 let currentIndex = 0;
 let rotationInterval;
+let rotationTime = localStorage.getItem('rotationTime') || 30000; // Default to 30 seconds
+
 
 // Function to handle image rotation
 const rotateImages = (imageList) => {
+    rotationTime = localStorage.getItem('rotationTime') || 30000;
     console.log("Testing image rotation");
     if (imageList.length === 0) {
         alert('No images selected.');
@@ -23,7 +26,7 @@ const rotateImages = (imageList) => {
         document.getElementById('imageContainer').appendChild(imgElement);
 
         currentIndex = (currentIndex + 1) % imageList.length;
-    }, 30000);
+    }, rotationTime);
 };
 
 // Function to stop image rotation
@@ -53,11 +56,12 @@ const updateThumbnails = () => {
 
 // Initialize thumbnails and checkboxes
 window.addEventListener('DOMContentLoaded', (event) => {
+    // initializing selected images
     selectedImages = JSON.parse(localStorage.getItem('selectedImages') || '[]');
     console.log("Initial selected images from local storage:", selectedImages);
     updateThumbnails();
 
-    // For settings.html page
+    // code for settings.html page
     const fileInput = document.getElementById('fileInput');
     if (fileInput) {
         document.getElementById('uploadBtn').addEventListener('click', function () {
@@ -83,19 +87,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('stopBtn').addEventListener('click', stopRotation);
     }
 
-    // New code for Save Button
+    // code for Save Button
     const saveButton = document.getElementById('saveBtn');
     if (saveButton) {
         saveButton.addEventListener('click', function () {
+            // Existing code for saving image selection
             console.log("Save button clicked");
-            console.log("Save button clicked");  // Debugging log
             localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
             console.log("Local storage set on Save button click:", localStorage.getItem('selectedImages'));
-            alert('Selection saved.');
+
+            // New code for saving rotation time
+            const inputTime = parseInt(document.getElementById('rotationTime').value, 10);
+            if (!isNaN(inputTime) && inputTime > 0) {
+                rotationTime = inputTime;
+                localStorage.setItem('rotationTime', rotationTime);
+                console.log("Rotation time saved:", rotationTime);
+            } else {
+                alert('Please enter a valid time in milliseconds.');
+            }
+
+            alert('Selection and rotation time saved.');
         });
     }
 
-    // For index.html page
+    // code for index.html page
     if (document.getElementById('imageContainer')) {
         console.log("Image rotation logic for index.html is being executed...");
         const savedImages = JSON.parse(localStorage.getItem('selectedImages') || '[]');
@@ -108,7 +123,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             console.log("No saved images found in local storage.");
         }
     }
+
 });
+
 
 // Code to handle the delete button click
 const deleteButtons = document.querySelectorAll('.delete-button');
