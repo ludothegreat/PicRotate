@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Rotator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="imageContainer">
+        <!-- Image will be displayed here -->
+    </div>
+    <a href="/settings">Settings</a>
+        <script>
+        imageListFromServer = JSON.parse('{{ image_filenames|tojson|safe }}');
+    </script>    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

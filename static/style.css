@@ -1,0 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#imageContainer img {
+    max-width: 100%;
+    max-height: 400px;
+}
+
+.thumbnail {
+    width: 100px;
+    margin: 10px;
+}

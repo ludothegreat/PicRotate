@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Rotator - Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Settings</h1><a href="/"> PicRotate</a>
+
+    <!-- Upload Form -->
+    <form action="/settings" method="post" enctype="multipart/form-data">
+        <label for="file">Select images to upload (.jpg):</label>
+        <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png" multiple>
+        <input type="submit" value="Upload">
+    </form>
+
+    <!-- Display Image Thumbnails-->
+    <div id="uploadedImages">
+        {% for image in image_filenames %}
+        <div class="image-item">
+            <img src="{{ url_for('serve_image', filename=image) }}" class="thumbnail">
+            <input type="checkbox" class="image-checkbox" data-image-name="{{ image }}">
+            <button class="delete-button" data-image-name="{{ image }}">Delete</button>
+        </div>
+        {% endfor %}
+    </div>
+    <button id="saveBtn">Save Selection</button>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</html>
